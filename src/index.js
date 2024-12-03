@@ -1,12 +1,23 @@
-function poemGenerator(event) {
-    event.preventDefault();
-
+function displayPoem(response) {
     new Typewriter("#poem", {
-        strings: "Because I could not stop for Death. He kindly stopped for me. The carriage held but just ourselves. And Immortality.",
+        strings: response.data.answer,
         autoStart: true,
         delay: 1,
         cursor: "",
       });
+}
+
+function poemGenerator(event) {
+    event.preventDefault();
+
+    let instructionsInput = document.querySelector("#user-instructions");
+      let apiKey = "fea6579f5ctf53bb7491ae80ac32o60f";
+      let context = "You are a romantic poem expert who enjoys writing short poems. Please generate a 4 line poems and separate each line with a <br />. Please make sure to follow the user instructions";
+      let prompt = `User instructions: Generate an English poem about ${instructionsInput.value}`;
+      let apiUrl = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${apiKey}`;
+     
+
+      axios.get(apiUrl).then(displayPoem);
 
 }
 
